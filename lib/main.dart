@@ -5,9 +5,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,13 +18,71 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const LoginScreen(),
+      home: const LandingPage(),
+    );
+  }
+}
+
+class LandingPage extends StatelessWidget {
+  const LandingPage({Key? key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/AlertAceBG.jpg"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                'AlertAce', // Title
+                style: TextStyle(
+                  fontSize: 36,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              Text(
+                'Your Emergency Assistance Companion', // Caption
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.only(top: 200.0), // Adjust the top padding
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginScreen()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    elevation: 5,
+                  ),
+                  child: const Text('Get Started'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,20 +96,18 @@ class LoginScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: TextFormField(
-                  keyboardType: TextInputType.text,
-                  decoration: const InputDecoration(
-                      labelText: "Username",
-                      prefixIcon: Icon(Icons.person),
-                      border: UnderlineInputBorder()),
-                  onChanged: (String value) {},
-                  validator: (value) {
-                    return value!.isEmpty
-                        ? "Please enter your Username"
-                        : null;
-                  },
-                ),
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: TextFormField(
+                keyboardType: TextInputType.text,
+                decoration: const InputDecoration(
+                    labelText: "Username",
+                    prefixIcon: Icon(Icons.person),
+                    border: UnderlineInputBorder()),
+                onChanged: (String value) {},
+                validator: (value) {
+                  return value!.isEmpty ? "Please enter your Username" : null;
+                },
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -67,21 +122,20 @@ class LoginScreen extends StatelessWidget {
                     border: UnderlineInputBorder()),
                 onChanged: (String value) {},
                 validator: (value) {
-                  return value!.isEmpty
-                      ? "Please enter your password"
-                      : null;
+                  return value!.isEmpty ? "Please enter your password" : null;
                 },
               ),
             ),
             const SizedBox(height: 30),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 150),
-              child: MaterialButton(onPressed: () {
-                // Navigator.pushReplacement(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => const MainPage()),
-                // );
-              },
+              child: MaterialButton(
+                onPressed: () {
+                  // Navigator.pushReplacement(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => const MainPage()),
+                  // );
+                },
                 minWidth: double.infinity,
                 color: Theme.of(context).colorScheme.inversePrimary,
                 textColor: Colors.white,
