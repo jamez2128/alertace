@@ -60,7 +60,7 @@ class LandingPage extends StatelessWidget {
                     const EdgeInsets.only(top: 200.0), // Adjust the top padding
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                           builder: (context) => const LoginScreen()),
