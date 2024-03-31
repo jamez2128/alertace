@@ -5,15 +5,16 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch(
-          primarySwatch: Colors.red,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.red,
           brightness: Brightness.dark,
         ),
         useMaterial3: true,
@@ -81,15 +82,13 @@ class LandingPage extends StatelessWidget {
 }
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key); // Add key parameter here
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context)
-            .colorScheme
-            .background, // Change 'backgroundColor' to 'background'
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("Log in"),
       ),
       body: Center(
@@ -101,15 +100,12 @@ class LoginScreen extends StatelessWidget {
               child: TextFormField(
                 keyboardType: TextInputType.text,
                 decoration: const InputDecoration(
-                  labelText: "Username",
-                  prefixIcon: Icon(Icons.person),
-                  border: UnderlineInputBorder(),
-                ),
+                    labelText: "Username",
+                    prefixIcon: Icon(Icons.person),
+                    border: UnderlineInputBorder()),
                 onChanged: (String value) {},
                 validator: (value) {
-                  return value?.isEmpty ?? true
-                      ? "Please enter your Username"
-                      : null;
+                  return value!.isEmpty ? "Please enter your Username" : null;
                 },
               ),
             ),
@@ -121,15 +117,12 @@ class LoginScreen extends StatelessWidget {
                 obscureText: true,
                 keyboardType: TextInputType.visiblePassword,
                 decoration: const InputDecoration(
-                  labelText: "Password",
-                  prefixIcon: Icon(Icons.lock),
-                  border: UnderlineInputBorder(),
-                ),
+                    labelText: "Password",
+                    prefixIcon: Icon(Icons.lock),
+                    border: UnderlineInputBorder()),
                 onChanged: (String value) {},
                 validator: (value) {
-                  return value?.isEmpty ?? true
-                      ? "Please enter your password"
-                      : null;
+                  return value!.isEmpty ? "Please enter your password" : null;
                 },
               ),
             ),
@@ -138,22 +131,180 @@ class LoginScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 150),
               child: MaterialButton(
                 onPressed: () {
-                  // Navigate to the EmergencyInfoScreen after login
-                  Navigator.push(
+                  // Uncomment and replace placeholder code with the correct navigation
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                         builder: (context) => const EmergencyInfoScreen()),
                   );
                 },
                 minWidth: double.infinity,
-                color: Theme.of(context)
-                    .colorScheme
-                    .background, // Change 'backgroundColor' to 'background'
-                textColor: Colors.white,
+                color: Theme.of(context).colorScheme.inversePrimary,
                 child: const Text("Login"),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 150),
+              child: MaterialButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SignUpScreen()),
+                  );
+                },
+                minWidth: double.infinity,
+                color: Theme.of(context).colorScheme.inversePrimary,
+                child: Text(
+                  'Sign Up',
+                  style:
+                  TextStyle(color: Theme.of(context).colorScheme.onSurface),
+                ),
+              ),
+            ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class SignUpScreen extends StatelessWidget {
+  const SignUpScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: const Text("Sign Up"),
+      ),
+      body: Center(
+        child: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: TextFormField(
+                    keyboardType: TextInputType.text,
+                    decoration: const InputDecoration(
+                      labelText: "Username",
+                      prefixIcon: Icon(Icons.person),
+                      border: UnderlineInputBorder(),
+                    ),
+                    onChanged: (String value) {},
+                    validator: (value) {
+                      return value!.isEmpty
+                          ? "Please enter your Username"
+                          : null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: TextFormField(
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: const InputDecoration(
+                      labelText: "Email",
+                      prefixIcon: Icon(Icons.email),
+                      border: UnderlineInputBorder(),
+                    ),
+                    onChanged: (String value) {},
+                    validator: (value) {
+                      // Validate email format
+                      if (!value!.contains('@') || !value.contains('.')) {
+                        return "Please enter a valid email address";
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Tooltip(
+                    message:
+                    "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+                    child: TextFormField(
+                      enableSuggestions: false,
+                      autocorrect: false,
+                      obscureText: true,
+                      keyboardType: TextInputType.visiblePassword,
+                      decoration: const InputDecoration(
+                        labelText: "Password",
+                        hintText: "Enter your password", // Hint text added
+                        prefixIcon: Icon(Icons.lock),
+                        border: UnderlineInputBorder(),
+                      ),
+                      onChanged: (String value) {},
+                      validator: (value) {
+                        // Password validation
+                        if (value!.isEmpty) {
+                          return "Please enter your password";
+                        } else if (value.length < 8) {
+                          return "Password must be at least 8 characters long";
+                        } else if (!RegExp(
+                            r'^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[!@#$%^&*()_+{}|:"<>?/~`]).{8,}$')
+                            .hasMatch(value)) {
+                          return "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character";
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: TextFormField(
+                    enableSuggestions: false,
+                    autocorrect: false,
+                    obscureText: true,
+                    keyboardType: TextInputType.visiblePassword,
+                    decoration: const InputDecoration(
+                      labelText: "Confirm Password",
+                      hintText: "Confirm your password", // Hint text added
+                      prefixIcon: Icon(Icons.lock),
+                      border: UnderlineInputBorder(),
+                    ),
+                    onChanged: (String value) {},
+                    validator: (value) {
+                      // Confirm password validation
+                      if (value!.isEmpty) {
+                        return "Please confirm your password";
+                      } else if (value != value) {
+                        return "Passwords do not match";
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                const SizedBox(height: 30),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 150),
+                  child: MaterialButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        // Sign up logic
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                              const LoginScreen()), // Corrected reference to LoginScreen
+                        );
+                      }
+                    },
+                    minWidth: double.infinity,
+                    color: Theme.of(context).colorScheme.inversePrimary,
+                    textColor: Colors.white,
+                    child: const Text("Sign Up"),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -168,9 +319,7 @@ class EmergencyInfoScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context)
-            .colorScheme
-            .background, // Change 'backgroundColor' to 'background'
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("Emergency Information"),
       ),
       body: Center(
@@ -232,6 +381,15 @@ class EmergencyInfoScreen extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => const MainPage()),
                   );
                 },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                      if (states.contains(MaterialState.pressed))
+                        return Theme.of(context).colorScheme.primary;
+                      return Theme.of(context).colorScheme.inversePrimary; // Use the component's default.
+                    },
+                  ),
+                ),
                 child: const Text("Confirm"),
               ),
             ],
