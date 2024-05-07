@@ -446,16 +446,13 @@ class _MainPageState extends State<MainPage> {
 }
 
 class EmergencyChoicesPage extends StatelessWidget {
-  const EmergencyChoicesPage({Key? key})
-      : super(key: key); // Add key parameter here
+  const EmergencyChoicesPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context)
-            .colorScheme
-            .background, // Change 'backgroundColor' to 'background'
+        backgroundColor: Theme.of(context).colorScheme.background,
         title: const Text("Emergency Choices"),
       ),
       body: Center(
@@ -464,39 +461,139 @@ class EmergencyChoicesPage extends StatelessWidget {
           children: <Widget>[
             ElevatedButton(
               onPressed: () {
-                // Handle button tap for car accident
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HelpIsOnTheWayPage(),
+                  ),
+                );
               },
               child: const Text("Car Accident"),
             ),
             ElevatedButton(
               onPressed: () {
-                // Handle button tap for chest pain
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HelpIsOnTheWayPage(),
+                  ),
+                );
               },
               child: const Text("Chest Pain"),
             ),
             ElevatedButton(
               onPressed: () {
-                // Handle button tap for breathlessness
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HelpIsOnTheWayPage(),
+                  ),
+                );
               },
               child: const Text("Breathlessness"),
             ),
             ElevatedButton(
               onPressed: () {
-                // Handle button tap for unconsciousness
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HelpIsOnTheWayPage(),
+                  ),
+                );
               },
               child: const Text("Unconsciousness"),
             ),
             ElevatedButton(
               onPressed: () {
-                // Handle button tap for sudden paralysis
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HelpIsOnTheWayPage(),
+                  ),
+                );
               },
               child: const Text("Sudden Paralysis"),
             ),
             ElevatedButton(
               onPressed: () {
-                // Handle button tap for physical injury
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HelpIsOnTheWayPage(),
+                  ),
+                );
               },
               child: const Text("Physical Injury"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class HelpIsOnTheWayPage extends StatelessWidget {
+  const HelpIsOnTheWayPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // Introduce a 5-second delay before navigating to HelpHasArrivedPage
+    Future.delayed(Duration(seconds: 10), () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HelpHasArrivedPage(),
+        ),
+      );
+    });
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Help is on the Way"),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Image(
+              image: AssetImage('assets/Ambulance.png'), // Replace with your image
+              width: 300, // Adjust width as needed
+              height: 300, // Adjust height as needed
+            ),
+            SizedBox(height: 20),
+            Text(
+              "An ambulance and emergency personnel are en route!",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class HelpHasArrivedPage extends StatelessWidget {
+  const HelpHasArrivedPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Help has Arrived"),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const <Widget>[
+            Icon(
+              Icons.check_circle,
+              color: Colors.green,
+              size: 100,
+            ),
+            SizedBox(height: 20),
+            Text(
+              "Help has arrived!",
+              style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
             ),
           ],
         ),
